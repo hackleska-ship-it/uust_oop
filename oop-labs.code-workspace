@@ -1,0 +1,16 @@
+{
+  "folders": [{ "path": "." }],
+  "tasks": {
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "Build OOP lab 2",
+        "type": "shell",
+        "command": "${workspaceFolder}\\lab_2\\build.bat",
+        "options": { "cwd": "${workspaceFolder}\\lab_2" },
+        "group": { "kind": "build", "isDefault": true },
+        "problemMatcher": "$gcc"
+      }
+    ]
+  }
+}
