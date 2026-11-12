@@ -27,4 +27,23 @@ public:
     void Print() const;
 };
 
+// Наследник без собственных конструкторов и деструктора — отдельный
+// обязательный пример из методички. Нужные специальные методы создаст компилятор.
+class PlainPoint : public Point {};
+
+class ColoredPoint : public Point {
+private:
+    int color_; // Простой числовой код цвета, например 1 — красный.
+
+public:
+    ColoredPoint();
+    ColoredPoint(int x, int y, int color);
+    ColoredPoint(const ColoredPoint& other);
+    ~ColoredPoint();
+
+    void SetColor(int color);
+    // virtual намеренно нет: сравниваем вызовы по типу указателя.
+    void Print() const;
+};
+
 #endif

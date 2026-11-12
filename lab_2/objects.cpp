@@ -37,3 +37,33 @@ void Point::Print() const {
     PrintCoordinates();
     std::cout << '\n';
 }
+
+ColoredPoint::ColoredPoint() : Point(), color_(0) {
+    std::cout << "ColoredPoint()\n";
+}
+
+ColoredPoint::ColoredPoint(int x, int y, int color)
+    : Point(x, y), color_(color) {
+    std::cout << "ColoredPoint(x, y, color)\n";
+}
+
+ColoredPoint::ColoredPoint(const ColoredPoint& other)
+    : Point(other), color_(other.color_) {
+    std::cout << "ColoredPoint(copy)\n";
+}
+
+ColoredPoint::~ColoredPoint() {
+    std::cout << "~ColoredPoint\n";
+}
+
+void ColoredPoint::SetColor(int color) {
+    std::cout << "ColoredPoint::SetColor\n";
+    color_ = color;
+}
+
+void ColoredPoint::Print() const {
+    std::cout << "ColoredPoint::Print ";
+    PrintCoordinates(); // protected-метод доступен в наследнике.
+    std::cout << " color=" << color_ << '\n';
+    Point::Print(); // Явный вызов метода предка внутри метода потомка.
+}
