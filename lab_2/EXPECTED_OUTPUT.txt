@@ -1,0 +1,111 @@
+
+=== 1. Point: constructors, copies, pointers ===
+Point()
+Point(x, y)
+Point(copy)
+Point::Move
+Point::Print (1, 2)
+Point::Print (11, 2)
+Point::Move
+Point::Print (1, 12)
+Point::Print (1, 2)
+GetX (inline method) = 1
+Point(x, y)
+Point::Move
+Same address: 1
+Point::Print (103, 4)
+Point::Print (103, 4)
+~Point (103, 4)
+Leaving PointDemo: local objects are destroyed in reverse order
+~Point (11, 2)
+~Point (1, 2)
+~Point (1, 12)
+
+=== 2. Inheritance: no own constructors ===
+Point()
+Point::Print (0, 0)
+~Point (0, 0)
+
+=== 3. Inheritance: own constructors ===
+Point()
+ColoredPoint()
+Point(x, y)
+ColoredPoint(x, y, color)
+Point(copy)
+ColoredPoint(copy)
+ColoredPoint::SetColor
+Point::Move
+ColoredPoint::Print (5, 6) color=1
+Point::Print (5, 6)
+ColoredPoint::Print (15, 6) color=2
+Point::Print (15, 6)
+Through Point*: Point::Print (5, 6)
+Point(copy)
+Point::Move
+Point::Print (105, 6)
+ColoredPoint::Print (5, 6) color=1
+Point::Print (5, 6)
+Point(x, y)
+Point::Print (7, 8)
+~Point (7, 8)
+Point(x, y)
+ColoredPoint(x, y, color)
+Point::Print (9, 10)
+~ColoredPoint
+~Point (9, 10)
+Leaving InheritanceDemo
+~Point (105, 6)
+~ColoredPoint
+~Point (15, 6)
+~ColoredPoint
+~Point (5, 6)
+~ColoredPoint
+~Point (0, 0)
+
+=== 4. Composition: Point field ===
+Point()
+Circle()
+Point(x, y)
+Circle(x, y, radius)
+Point(copy)
+Circle(copy)
+Circle::Move
+Point::Move
+Circle::Print radius=1
+Point::Print (0, 0)
+Circle::Print radius=5
+Point::Print (1, 2)
+Circle::Print radius=5
+Point::Print (11, 2)
+Leaving scope: Circle first, its Point second
+~Circle (center is destroyed automatically after this)
+~Point (11, 2)
+~Circle (center is destroyed automatically after this)
+~Point (1, 2)
+~Circle (center is destroyed automatically after this)
+~Point (0, 0)
+
+=== 5. Composition: owned Point* field ===
+Point()
+CirclePtr()
+Point(x, y)
+CirclePtr(x, y, radius)
+Point(copy)
+CirclePtr(copy: separate center)
+CirclePtr::Move
+Point::Move
+CirclePtr::Move
+Point::Move
+CirclePtr::Print radius=1
+Point::Print (0, 0)
+CirclePtr::Print radius=5
+Point::Print (1, 22)
+CirclePtr::Print radius=5
+Point::Print (11, 2)
+Leaving scope: each CirclePtr deletes its own Point
+~CirclePtr (delete owned center now)
+~Point (11, 2)
+~CirclePtr (delete owned center now)
+~Point (1, 22)
+~CirclePtr (delete owned center now)
+~Point (0, 0)
