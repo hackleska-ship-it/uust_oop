@@ -67,3 +67,61 @@ void ColoredPoint::Print() const {
     std::cout << " color=" << color_ << '\n';
     Point::Print(); // Явный вызов метода предка внутри метода потомка.
 }
+
+Circle::Circle() : center_(), radius_(1) {
+    std::cout << "Circle()\n";
+}
+
+Circle::Circle(int x, int y, int radius)
+    : center_(x, y), radius_(radius) {
+    std::cout << "Circle(x, y, radius)\n";
+}
+
+Circle::Circle(const Circle& other)
+    : center_(other.center_), radius_(other.radius_) {
+    std::cout << "Circle(copy)\n";
+}
+
+Circle::~Circle() {
+    std::cout << "~Circle (center is destroyed automatically after this)\n";
+    // delete не нужен: center_ — непосредственное поле, а не new Point.
+}
+
+void Circle::Move(int dx, int dy) {
+    std::cout << "Circle::Move\n";
+    center_.Move(dx, dy);
+}
+
+void Circle::Print() const {
+    std::cout << "Circle::Print radius=" << radius_ << '\n';
+    center_.Print();
+}
+
+CirclePtr::CirclePtr() : center_(new Point()), radius_(1) {
+    std::cout << "CirclePtr()\n";
+}
+
+CirclePtr::CirclePtr(int x, int y, int radius)
+    : center_(new Point(x, y)), radius_(radius) {
+    std::cout << "CirclePtr(x, y, radius)\n";
+}
+
+CirclePtr::CirclePtr(const CirclePtr& other)
+    : center_(new Point(*other.center_)), radius_(other.radius_) {
+    std::cout << "CirclePtr(copy: separate center)\n";
+}
+
+CirclePtr::~CirclePtr() {
+    std::cout << "~CirclePtr (delete owned center now)\n";
+    delete center_; // Эта точка была создана через new в конструкторе.
+}
+
+void CirclePtr::Move(int dx, int dy) {
+    std::cout << "CirclePtr::Move\n";
+    center_->Move(dx, dy);
+}
+
+void CirclePtr::Print() const {
+    std::cout << "CirclePtr::Print radius=" << radius_ << '\n';
+    center_->Print();
+}

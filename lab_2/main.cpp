@@ -74,8 +74,37 @@ void InheritanceDemo() {
     std::cout << "Leaving InheritanceDemo\n";
 }
 
+void CompositionDemo() {
+    std::cout << "\n=== 4. Composition: Point field ===\n";
+    {
+        Circle first;
+        Circle original(1, 2, 5);
+        Circle copy(original);
+        copy.Move(10, 0);
+        first.Print();
+        original.Print();
+        copy.Print();
+        std::cout << "Leaving scope: Circle first, its Point second\n";
+    }
+
+    std::cout << "\n=== 5. Composition: owned Point* field ===\n";
+    {
+        CirclePtr first;
+        CirclePtr original(1, 2, 5);
+        CirclePtr copy(original); // Создаётся отдельная точка, не общий адрес.
+        copy.Move(10, 0);
+        original.Move(0, 20); // Меняем оригинал: копия тоже не меняется.
+        first.Print();
+        original.Print();
+        copy.Print();
+        // first = original; // Запрещено: защищаемся от копирования владельца.
+        std::cout << "Leaving scope: each CirclePtr deletes its own Point\n";
+    }
+}
+
 int main() {
     PointDemo();
     InheritanceDemo();
+    CompositionDemo();
     return 0;
 }

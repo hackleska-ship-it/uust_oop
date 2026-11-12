@@ -46,4 +46,37 @@ public:
     void Print() const;
 };
 
+// Композиция по значению: center_ — часть самого объекта Circle.
+class Circle {
+private:
+    Point center_;
+    int radius_;
+
+public:
+    Circle();
+    Circle(int x, int y, int radius);
+    Circle(const Circle& other);
+    ~Circle();
+    void Move(int dx, int dy);
+    void Print() const;
+};
+
+// Та же композиция, но с единоличным владением динамической точкой.
+class CirclePtr {
+private:
+    Point* center_;
+    int radius_;
+
+public:
+    CirclePtr();
+    CirclePtr(int x, int y, int radius);
+    CirclePtr(const CirclePtr& other);
+    ~CirclePtr();
+    // Не разрешаем неявное присваивание владеющих указателей.
+    // Создать копию через конструктор копирования по-прежнему можно.
+    CirclePtr& operator=(const CirclePtr& other) = delete;
+    void Move(int dx, int dy);
+    void Print() const;
+};
+
 #endif
