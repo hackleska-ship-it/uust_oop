@@ -7,24 +7,35 @@ Point::Move
 Point::Print (1, 2)
 Point::Print (11, 2)
 Point::Move
+Point::Move
+Independent objects after assignment:
 Point::Print (1, 12)
-Point::Print (1, 2)
-GetX (inline method) = 1
+Point::Print (0, 0)
+GetX (inline method) = 0
 Point(x, y)
 Point::Move
 Same address: 1
 Point::Print (103, 4)
 Point::Print (103, 4)
-~Point (103, 4)
+Point::Move
+After moving through the original pointer:
+Point::Print (103, 14)
+Point::Print (103, 14)
+~Point (103, 14)
 Leaving PointDemo: local objects are destroyed in reverse order
 ~Point (11, 2)
-~Point (1, 2)
+~Point (0, 0)
 ~Point (1, 12)
 
 === 2. Inheritance: no own constructors ===
 Point()
-Point::Print (0, 0)
-~Point (0, 0)
+Point::Move
+Point(copy)
+Point::Move
+Point::Print (1, 2)
+Point::Print (11, 2)
+~Point (11, 2)
+~Point (1, 2)
 
 === 3. Inheritance: own constructors ===
 Point()

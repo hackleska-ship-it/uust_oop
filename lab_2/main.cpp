@@ -1,5 +1,6 @@
 #include "objects.h"
 #include <iostream>
+#include <string>
 
 void PointDemo() {
     std::cout << "\n=== 1. Point: constructors, copies, pointers ===\n";
@@ -13,6 +14,8 @@ void PointDemo() {
     // first уже существует: здесь присваивание, не создание объекта.
     first = original;
     first.Move(0, 10);
+    original.Move(-1, -2);
+    std::cout << "Independent objects after assignment:\n";
     first.Print();
     original.Print();
     std::cout << "GetX (inline method) = " << original.GetX() << '\n';
@@ -24,6 +27,10 @@ void PointDemo() {
     std::cout << "Same address: " << (dynamic == alias) << '\n';
     dynamic->Print();
     alias->Print();
+    dynamic->Move(0, 10);
+    std::cout << "After moving through the original pointer:\n";
+    dynamic->Print();
+    alias->Print();
     delete dynamic; // Удаляем общий объект ровно один раз.
     dynamic = nullptr;
     alias = nullptr;
@@ -33,13 +40,19 @@ void PointDemo() {
     std::cout << "Leaving PointDemo: local objects are destroyed in reverse order\n";
 }
 
-void InheritanceDemo() {
+void PlainInheritanceDemo() {
     std::cout << "\n=== 2. Inheritance: no own constructors ===\n";
     {
         PlainPoint plain;
+        plain.Move(1, 2);
+        PlainPoint copy(plain);
+        copy.Move(10, 0);
         plain.Print();
+        copy.Print();
     } // Неявный деструктор PlainPoint вызывает деструктор Point.
+}
 
+void InheritanceDemo() {
     std::cout << "\n=== 3. Inheritance: own constructors ===\n";
     ColoredPoint first;
     ColoredPoint colored(5, 6, 1);
@@ -74,7 +87,7 @@ void InheritanceDemo() {
     std::cout << "Leaving InheritanceDemo\n";
 }
 
-void CompositionDemo() {
+void CompositionValueDemo() {
     std::cout << "\n=== 4. Composition: Point field ===\n";
     {
         Circle first;
@@ -86,7 +99,9 @@ void CompositionDemo() {
         copy.Print();
         std::cout << "Leaving scope: Circle first, its Point second\n";
     }
+}
 
+void CompositionPointerDemo() {
     std::cout << "\n=== 5. Composition: owned Point* field ===\n";
     {
         CirclePtr first;
@@ -102,9 +117,19 @@ void CompositionDemo() {
     }
 }
 
-int main() {
-    PointDemo();
-    InheritanceDemo();
-    CompositionDemo();
+int main(int argc, char* argv[]) {
+    const std::string section = argc > 1 ? argv[1] : "all";
+    if (argc > 2 || (section != "all" && section != "point" &&
+        section != "plain" && section != "inheritance" &&
+        section != "value" && section != "pointer")) {
+        std::cerr << "Usage: lab2.exe [all|point|plain|inheritance|value|pointer]\n";
+        return 2;
+    }
+
+    if (section == "all" || section == "point") PointDemo();
+    if (section == "all" || section == "plain") PlainInheritanceDemo();
+    if (section == "all" || section == "inheritance") InheritanceDemo();
+    if (section == "all" || section == "value") CompositionValueDemo();
+    if (section == "all" || section == "pointer") CompositionPointerDemo();
     return 0;
 }
