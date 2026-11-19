@@ -8,3 +8,6 @@ tools/
 *.ilk
 *.user
 lab2
+__pycache__/
+.venv/
+*.py[cod]
